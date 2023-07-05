@@ -1,0 +1,101 @@
+html
+<!DOCTYPE html>
+<html>
+<head>
+ <title>BMI计算页面</title>
+ <style>
+ body {
+ background-image: url("https://img.pptjia.com/image/20190507/fb425bbd62aef6b776ef7f54d4267632.jpg");
+ background-size: cover;
+ font-family: Arial, sans-serif;
+ color: #ffffff;
+ margin:0;
+ padding:0;
+ }
+ .container {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ height:100vh;
+ justify-content: center;
+ }
+ h1 {
+ font-size:32px;
+ font-weight: bold;
+ margin-bottom:24px;
+ }
+ .bmi-form {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ margin-bottom:24px;
+ }
+ .input-group {
+ display: flex;
+ flex-direction: column;
+ margin-bottom:16px;
+ }
+ .input-group label {
+ font-size:18px;
+ margin-bottom:8px;
+ }
+ .input-group input {
+ padding:8px;
+ font-size:16px;
+ }
+ .input-group input[type="submit"] {
+ background-color: #4CAF50;
+ color: white;
+ cursor: pointer;
+ }
+ .ai-assistant {
+ cursor: pointer;
+ font-size:18px;
+ text-decoration: underline;
+ }
+ .bmi-result {
+ font-size: 24px;
+ margin-top: 24px;
+ }
+ </style>
+</head>
+
+<body>
+ <div class="container">
+ <h1>BMI计算器</h1>
+ <div class="bmi-form">
+ <div class="input-group">
+ <label>身高（厘米）</label>
+ <input type="text" id="height" placeholder="请输入身高">
+ </div>
+ <div class="input-group">
+ <label>体重（公斤）</label>
+ <input type="text" id="weight" placeholder="请输入体重">
+ </div>
+ <div class="input-group">
+ <input type="submit" value="计算BMI" onclick="calculateBMI()">
+ </div>
+ <div class="bmi-result" id="bmiResult"></div>
+ </div>
+ <a href="4.html" class="ai-assistant">AI助手</a>
+ </div>
+ <script>
+ function calculateBMI() {
+   var height = document.getElementById("height").value;
+   var weight = document.getElementById("weight").value;
+
+   // 检查输入是否为空
+   if (height === "" || weight === "") {
+     alert("请输入身高和体重");
+     return;
+   }
+
+   // 计算BMI
+   var bmi = weight / ((height/100) * (height/100));
+
+   // 显示BMI结果
+   document.getElementById("bmiResult").innerHTML = "您的BMI为: " + bmi.toFixed(2);
+ }
+ </script>
+</body>
+</html>
