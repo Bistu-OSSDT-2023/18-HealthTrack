@@ -1,0 +1,160 @@
+
+import java.util.*;
+
+class User {
+    private String username;
+    private String password;
+    private double weight;
+    private double height;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public boolean passwordMatch(String password) {
+        return this.password.equals(password);
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getBMI() {
+        return weight*10000 / (height * height);
+    }
+}
+
+class HealthManagementSystem {
+    private static List<User> users = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+
+    public static void main(String[] args) {
+        boolean isRunning = true;
+
+        while (isRunning) {
+            System.out.println("健康管理系统");
+            System.out.println("1. 登录");
+            System.out.println("2. 注册");
+            System.out.println("3. 退出");
+            System.out.print("请选择操作: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    login();
+                    break;
+                case 2:
+                    register();
+                    break;
+                case 3:
+                    isRunning = false;
+                    System.out.println("谢谢使用，再见！");
+                    break;
+                default:
+                    System.out.println("无效的选择，请重新选择！");
+            }
+            System.out.println();
+        }
+    }
+
+    private static void login() {
+        System.out.println("------- 登录 -------");
+        System.out.print("请输入用户名: ");
+        String username = scanner.next();
+        System.out.print("请输入密码: ");
+        String password = scanner.next();
+
+        User user = findUser(username);
+        if (user != null && user.passwordMatch(password)) {
+            System.out.println("登录成功！欢迎，" + user.getUsername() + "！");
+            menu(user);
+        } else {
+            System.out.println("用户名或密码错误，请重新登录！");
+        }
+    }
+
+    private static void register() {
+        System.out.println("------- 注册 -------");
+        System.out.print("请输入用户名: ");
+        String username = scanner.next();
+        System.out.print("请输入密码: ");
+        String password = scanner.next();
+
+        User user = findUser(username);
+        if (user != null) {
+            System.out.println("用户名已存在，请重新注册！");
+        } else {
+            users.add(new User(username, password));
+            System.out.println("注册成功！");
+            System.out.println("请登录您的新账户。");
+        }
+    }
+
+    private static User findUser(String username) {
+        for (User user : users) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    private static void menu(User user) {
+        boolean isLoggedIn = true;
+
+        while (isLoggedIn) {
+            System.out.println("------- 健康管理 -------");
+            System.out.println("1. 录入身高体重");
+            System.out.println("2. 计算BMI");
+            System.out.println("3. 返回主菜单");
+            System.out.print("请选择操作: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    recordWeightAndHeight(user);
+                    break;
+                case 2:
+                    calculateBMI(user);
+                    break;
+                case 3:
+                    isLoggedIn = false;
+                    break;
+                default:
+                    System.out.println("无效的选择，请重新选择！");
+            }
+            System.out.println();
+        }
+    }
+
+    private static void recordWeightAndHeight(User user) {
+        System.out.println("------- 录入身高体重 -------");
+        System.out.print("请输入体重（kg）: ");
+        double weight = scanner.nextDouble();
+        System.out.print("请输入身高（m）: ");
+        double height = scanner.nextDouble();
+
+        user.setWeight(weight);
+        user.setHeight(height);
+
+        System.out.println("身高体重信息录入成功！");
+    }
+
+    private static void calculateBMI(User user) {
+        System.out.println("------- 计算BMI -------");
+        double bmi = user.getBMI();
+        System.out.println("BMI指数为: " + bmi);
+        
+    }
+}
